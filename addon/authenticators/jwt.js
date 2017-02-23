@@ -316,6 +316,7 @@ export default TokenAuthenticator.extend({
     @return {Ember.RSVP.Promise} A resolving promise
   */
   invalidate() {
+    
     Ember.run.cancel(this._refreshTokenTimeout);
     delete this._refreshTokenTimeout;
     return new Ember.RSVP.resolve();
@@ -348,6 +349,9 @@ export default TokenAuthenticator.extend({
     const tokenExpireData = {};
 
     tokenExpireData[this.tokenExpireName] = expiresAt;
+    tokenExpireData["email"] = Ember.get(tokenData, "email");
+    tokenExpireData["name"] = Ember.get(tokenData, "name");
+    tokenExpireData["role"] = Ember.get(tokenData, "role");
 
     this.scheduleAccessTokenRefresh(expiresAt, token);
 

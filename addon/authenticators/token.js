@@ -170,6 +170,7 @@ export default Base.extend({
     @return {Ember.RSVP.Promise} A resolving promise
   */
   invalidate() {
+    console.log("invalidating the token!");
     return Ember.RSVP.resolve();
   },
 
