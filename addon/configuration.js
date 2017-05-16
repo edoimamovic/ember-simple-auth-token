@@ -1,11 +1,11 @@
 import loadConfig from './utils/load-config';
 
 var defaults = {
-  serverTokenEndpoint: '/api/token-auth/',
+  serverTokenEndpoint: '/login/',
   serverTokenRefreshEndpoint: '/api/token-refresh/',
-  identificationField: 'username',
+  identificationField: 'identification',
   passwordField: 'password',
-  tokenPropertyName: 'token',
+  //tokenPropertyName: 'token',
   refreshAccessTokens: true,
   refreshLeeway: 0,
   tokenExpireName: 'exp',
