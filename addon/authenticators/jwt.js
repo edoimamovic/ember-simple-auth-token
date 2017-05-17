@@ -72,8 +72,6 @@ export default TokenAuthenticator.extend({
     this.refreshLeeway = Configuration.refreshLeeway;
     this.tokenExpireName = Configuration.tokenExpireName;
     this.headers = Configuration.headers;
-    this.authorizationPrefix = Configuration.authorizationPrefix;
-    this.authorizationHeaderName = Configuration.authorizationHeaderName;
   },
 
   /**
@@ -158,10 +156,10 @@ export default TokenAuthenticator.extend({
       const data = this.getAuthenticateData(credentials);
 
       this.makeRequest(this.serverTokenEndpoint, data, headers)
-        .then((response, status, qhr) => {
+        .then((response) => {
           Ember.run(() => {
             try {
-              const sessionData = this.handleAuthResponse(qhr);
+              const sessionData = this.handleAuthResponse(response);
 
               resolve(sessionData);
             } catch (error) {
@@ -340,10 +338,7 @@ export default TokenAuthenticator.extend({
     @private
    */
   handleAuthResponse(response) {
-    //const token = Ember.get(response, this.tokenPropertyName);
-    var tokenReceived = response.getResponseHeader(this.authorizationHeaderName);
-    var token = tokenReceived.replace(this.authorizationPrefix, "");
-    
+    const token = Ember.get(response, this.tokenPropertyName);
 
     if (Ember.isEmpty(token)) {
       throw new Error('Token is empty. Please check your backend response.');
