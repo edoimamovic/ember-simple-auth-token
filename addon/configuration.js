@@ -5,7 +5,7 @@ var defaults = {
   serverTokenRefreshEndpoint: '/api/token-refresh/',
   identificationField: 'identification',
   passwordField: 'password',
-  //tokenPropertyName: 'token',
+  tokenPropertyName: 'token',
   refreshAccessTokens: true,
   refreshLeeway: 0,
   tokenExpireName: 'exp',

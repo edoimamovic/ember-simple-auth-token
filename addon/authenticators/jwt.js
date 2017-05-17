@@ -161,14 +161,21 @@ export default TokenAuthenticator.extend({
         .then((response, status, qhr) => {
           Ember.run(() => {
             try {
-              const sessionData = this.handleAuthResponse(qhr);
-
+              const sessionDataUnparsed = this.handleAuthResponse(qhr);
+              const sessionData = {};
+              var tok = sessionDataUnparsed.getResponseHeader(this.authorizationHeaderName).replace("Bearer", "");
+              const tokenData = this.getTokenData(tok);
+              sessionData[this.tokenPropertyName] = tok;
+              sessionData["username"] = Ember.get(tokenData, "sub");
+              
               resolve(sessionData);
             } catch (error) {
+              this.headers = {};
               reject(error);
             }
           });
         }, (xhr) => {
+          this.headers = {};
           Ember.run(() => { reject(xhr.responseJSON || xhr.responseText); });
         });
     });
@@ -320,6 +327,7 @@ export default TokenAuthenticator.extend({
   invalidate() {
     
     Ember.run.cancel(this._refreshTokenTimeout);
+    this.headers = {};
     delete this._refreshTokenTimeout;
     return new Ember.RSVP.resolve();
   },
