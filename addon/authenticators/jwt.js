@@ -167,6 +167,7 @@ export default TokenAuthenticator.extend({
               const tokenData = this.getTokenData(tok);
               sessionData[this.tokenPropertyName] = tok;
               sessionData["username"] = Ember.get(tokenData, "sub");
+              sessionData["role"] = Ember.get(tokenData, "role");
               
               resolve(sessionData);
             } catch (error) {
